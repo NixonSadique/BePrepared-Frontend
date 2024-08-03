@@ -1,5 +1,5 @@
 import logo from "../../assets/logo.svg";
-import { OctagonAlert } from 'lucide-react';
+import { OctagonAlert, Bell, ChevronRight } from 'lucide-react';
 import './style.css'
 import { MetricsCard } from "../../components/MetricsCard";
 import { ButtonWithIcon } from "../../components/ButtonWithIcon";
@@ -71,21 +71,49 @@ export function Home() {
 
                 <aside>
                     <header>
-                        <OctagonAlert size={24} color="#000" />
+                        <Bell size={24} color="#000" />
                         <h2>Notificacoes</h2>
                         <span>4</span>
                     </header>
                     <ul>
                         <li>
                             <section>
+                                <div className="circle full"></div>
                                 <span>827793535</span> | {' '}
-                                <span>
+                                <span className="message">
                                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                                     Excepturi ducimus perferendis eius et magni quos,
                                     dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
                                     Iste, veniam. Deleniti!
                                 </span>
                             </section>
+                                <ChevronRight size={12} color="#000" />
+                        </li>
+                        <li>
+                            <section>
+                                <div className="circle"></div>
+                                <span>827793535</span> | {' '}
+                                <span className="message">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    Excepturi ducimus perferendis eius et magni quos,
+                                    dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
+                                    Iste, veniam. Deleniti!
+                                </span>
+                            </section>
+                                <ChevronRight size={12} color="#000" />
+                        </li>
+                        <li>
+                            <section>
+                                <div className="circle"></div>
+                                <span>827793535</span> | {' '}
+                                <span className="message">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                    Excepturi ducimus perferendis eius et magni quos,
+                                    dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
+                                    Iste, veniam. Deleniti!
+                                </span>
+                            </section>
+                                <ChevronRight size={12} color="#000" />
                         </li>
                     </ul>
                 </aside>
