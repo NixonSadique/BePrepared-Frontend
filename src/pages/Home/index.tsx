@@ -3,8 +3,43 @@ import { OctagonAlert, Bell, ChevronRight } from 'lucide-react';
 import './style.css'
 import { MetricsCard } from "../../components/MetricsCard";
 import { ButtonWithIcon } from "../../components/ButtonWithIcon";
+import { useEffect, useState } from "react";
+import { fetchData } from "../../services/api";
+
+interface StatsProps {
+    activeAlerts: number
+
+    citizens: number
+
+    totalAlerts: number
+}
+
+interface AlertsProps {
+    id: 0,
+    title: string,
+    message: string,
+    isActive: true,
+    //severity: EMERGENCIA,
+    city: string,
+    province: string
+}
 
 export function Home() {
+    const [stats, setStats] = useState<StatsProps | null>(null);
+    const [alerts, setAlerts] = useState<AlertsProps[]>([]);
+
+    useEffect(() => {
+        // fetchData<StatsProps>('/users/stats').then(response => {
+        //     setStats(response);
+        // });
+        Promise.all([
+            fetchData<StatsProps>('/users/stats'), fetchData<AlertsProps[]>('/alerts')]).then(([stats, alerts]) =>{
+            setStats(stats);
+            setAlerts(alerts);
+        })
+
+    }, []);
+
     return (
 
         <div id="home-page">
@@ -15,9 +50,9 @@ export function Home() {
             </header>
 
             <div className="metrics">
-                <MetricsCard title="Cadastros" total={420} last={69} />
-                <MetricsCard title="Alertas" total={420} last={69} />
-                <MetricsCard title="Notificacoes" total={420} last={69} />
+                <MetricsCard title="Cadastros" total={stats?  stats.citizens : 0} last={stats?  stats.citizens : 0} />
+                <MetricsCard title="Alertas Activos" total={stats?  stats.activeAlerts : 0} last={stats?  stats.activeAlerts : 0} />
+                <MetricsCard title="Alertas Totais" total={stats?  stats.totalAlerts : 0} last={stats?  stats.totalAlerts : 0} />
             </div>
 
             <div className="alerts-list">
@@ -38,33 +73,16 @@ export function Home() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Nobis, cupiditate eius! Dolores odio est harum vel iure voluptatibus laudantium quas voluptates in.
-                                    Necessitatibus eius quis perferendis aut dolore blanditiis maxime.
-                                </td>
-                                <td>2833</td>
-                                <td>Maputo-Matola</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Nobis, cupiditate eius! Dolores odio est harum vel iure voluptatibus laudantium quas voluptates in.
-                                    Necessitatibus eius quis perferendis aut dolore blanditiis maxime.
-                                </td>
-                                <td>2833</td>
-                                <td>Maputo-Matola</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Nobis, cupiditate eius! Dolores odio est harum vel iure voluptatibus laudantium quas voluptates in.
-                                    Necessitatibus eius quis perferendis aut dolore blanditiis maxime.
-                                </td>
-                                <td>2833</td>
-                                <td>Maputo-Matola</td>
-                            </tr>
+                        {
+                            alerts.map((alert) => (
+                                <tr key={alert.id}>
+                                    <td>
+                                        {alert.message}
+                                    </td>
+                                    <td>0</td>
+                                    <td>{alert.province} - {alert.city}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </main>
@@ -73,48 +91,22 @@ export function Home() {
                     <header>
                         <Bell size={24} color="#000" />
                         <h2>Notificacoes</h2>
-                        <span>4</span>
+                        <span>0</span>
                     </header>
                     <ul>
-                        <li>
+                        {
+                    alerts.map((alert) => (
+                        <li key={alert.id}>
                             <section>
                                 <div className="circle full"></div>
-                                <span>827793535</span> | {' '}
+                                <span>821234567</span> | {' '}
                                 <span className="message">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    Excepturi ducimus perferendis eius et magni quos,
-                                    dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
-                                    Iste, veniam. Deleniti!
+                                    Not Implemented Yet
                                 </span>
                             </section>
-                                <ChevronRight size={12} color="#000" />
-                        </li>
-                        <li>
-                            <section>
-                                <div className="circle"></div>
-                                <span>827793535</span> | {' '}
-                                <span className="message">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    Excepturi ducimus perferendis eius et magni quos,
-                                    dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
-                                    Iste, veniam. Deleniti!
-                                </span>
-                            </section>
-                                <ChevronRight size={12} color="#000" />
-                        </li>
-                        <li>
-                            <section>
-                                <div className="circle"></div>
-                                <span>827793535</span> | {' '}
-                                <span className="message">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    Excepturi ducimus perferendis eius et magni quos,
-                                    dolorum corporis deserunt non voluptatem doloremque nemo sed mollitia qui cupiditate dolore.
-                                    Iste, veniam. Deleniti!
-                                </span>
-                            </section>
-                                <ChevronRight size={12} color="#000" />
-                        </li>
+                            <ChevronRight size={12} color="#000" />
+                        </li>      
+                            ))}
                     </ul>
                 </aside>
             </div>
